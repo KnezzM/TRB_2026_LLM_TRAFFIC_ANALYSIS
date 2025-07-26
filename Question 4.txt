@@ -1,0 +1,240 @@
+Question: Is overall network performance (delay, stops, travel time) better under Actuated Coordinated Control compared to Actuated Free Control during Midday and Evening periods?
+
+
+SQL Agent Output:
+
+ SELECT
+    Scenario,
+    TimePeriod,
+    VehicleType,
+    MeasureType,
+    AVG(Value) AS avg_value
+FROM
+    network_performance
+WHERE
+    TimePeriod IN ('MD', 'EVE')
+    AND Scenario IN (
+        'TSP+AC+PR',
+        'TSP+AC+PPD',
+        'TSP+AC(TFT)+PPD',
+        'TSP+AC+PPD+PGE',
+        'TSP+AC+PPD+PGE+EP',
+        'TSP+GLOSA(10)+AC+PPD',
+        'TSP+GLOSA(20)+AC+PPD',
+        'TSP+GLOSA(30)+AC+PPD',
+        'TSP+AF+PPD',
+        'TSP+AF+PPD+PGE+EP',
+        'TSP+RIR+PPD',
+        'TSP+RIR+PPD+PGE'
+    )
+    AND MeasureType IN ('DELAYAVG', 'DELAYSTOPAVG', 'STOPSTOT', 'TRAVTMTOT')
+GROUP BY
+    Scenario,
+    TimePeriod,
+    VehicleType,
+    MeasureType;
+
+
+
+
+Reasoning Agent Output:
+
+1. Basic Instructions Pipeline:
+
+-------------------------------------------------------------------- ANSWER START --------------------------------------------------------------------------------------
+
+The query results compare network performance under Actuated Coordinated Control (AC) and Actuated Free/Rest-in-Red Control (AF/RIR) during the Midday (MD) and Evening (EVE) periods, considering vehicles, buses, and pedestrians. We'll focus on the key performance indicators: average delay, average stop delay, total stops, and total travel time.
+
+**Actuated Coordinated Control (AC) Analysis:**
+
+The scenarios representing AC are `TSP+AC+PPD` and `TSP+AC+PR`.
+
+*   **TSP+AC+PPD:** During both Midday and Evening, vehicles experience average delays around 30 seconds. Buses experience delays between 40-70 seconds.
+
+*   **TSP+AC+PR:** During both Midday and Evening, vehicles experience average delays around 43 seconds. Buses experience delays between 47-78 seconds.
+
+**Actuated Free/Rest-in-Red Control (AF/RIR) Analysis:**
+
+The scenarios representing AF/RIR are `TSP+AF+PPD`, `TSP+AF+PPD+PGE+EP`, `TSP+RIR+PPD`, and `TSP+RIR+PPD+PGE`.
+
+*   **TSP+AF+PPD:** During both Midday and Evening, vehicles experience average delays around 27-30 seconds. Buses experience delays between 38-62 seconds.
+
+*   **TSP+AF+PPD+PGE+EP:** During Midday, vehicles experience average delays around 30 seconds. Buses experience delays around 33 seconds.
+
+*   **TSP+RIR+PPD:** During both Midday and Evening, vehicles experience average delays around 31-35 seconds. Buses experience delays between 36-63 seconds.
+
+*   **TSP+RIR+PPD+PGE:** During Evening, vehicles experience average delays around 32 seconds. Buses experience delays around 65 seconds.
+
+**Comparison:**
+
+*   **Vehicles:** In general, vehicles experience slightly lower average delays under Actuated Free Control (`TSP+AF+PPD`) compared to Actuated Coordinated Control (`TSP+AC+PPD` and `TSP+AC+PR`) during both Midday and Evening. The Rest-in-Red scenarios (`TSP+RIR+PPD` and `TSP+RIR+PPD+PGE`) show similar vehicle delays to Actuated Free Control.
+
+*   **Buses:** Buses generally experience higher average delays under Actuated Coordinated Control (`TSP+AC+PPD` and `TSP+AC+PR`) compared to Actuated Free Control (`TSP+AF+PPD`) and Rest-in-Red Control (`TSP+RIR+PPD` and `TSP+RIR+PPD+PGE`) during both Midday and Evening.
+
+*   **Stops and Travel Time:** The trends in stops and total travel time generally align with the delay trends. Higher delays usually correspond to more stops and longer travel times.
+
+**Interpretation:**
+
+The results suggest that for vehicles, Actuated Free Control and Rest-in-Red Control may offer slightly better performance (lower delays) compared to Actuated Coordinated Control during the Midday and Evening periods. However, buses tend to perform better under Actuated Free Control and Rest-in-Red Control. This could be because Actuated Coordinated Control, while aiming to optimize overall traffic flow, might not be as responsive to individual vehicle demands as Actuated Free Control, or as efficient in low-demand situations as Rest-in-Red. The pedestrian recall in `TSP+AC+PR` may be increasing vehicle delays.
+
+**Final Answer:**
+
+Overall network performance for vehicles appears to be slightly better under Actuated Free Control and Rest-in-Red Control compared to Actuated Coordinated Control during Midday and Evening. However, buses tend to perform better under Actuated Free Control and Rest-in-Red Control.
+-------------------------------------------------------------------- ANSWER END --------------------------------------------------------------------------------------
+
+
+2. CoT:
+
+-------------------------------------------------------------------- ANSWER START --------------------------------------------------------------------------------------
+1. **Understand the Question**: The question asks whether Actuated Coordinated Control (AC) provides better network performance (delay, stops, travel time) compared to Actuated Free Control (AF) or Rest-in-Red (RIR) during the Midday (MD) and Evening (EVE) time periods.
+
+2. **Summarize the Data**: The data includes several scenarios with different control types: AC (specifically 'TSP+AC+PPD' and 'TSP+AC+PR'), AF ('TSP+AF+PPD' and 'TSP+AF+PPD+PGE+EP'), and RIR ('TSP+RIR+PPD' and 'TSP+RIR+PPD+PGE'). The performance metrics are provided for vehicles, buses, and pedestrians during the MD and EVE periods.
+
+3. **Compare Dimensions**:
+    *   **Vehicles (MD)**: Comparing 'TSP+AC+PPD' to 'TSP+AF+PPD' and 'TSP+RIR+PPD', AC has similar delay (30.8s vs 30.5s and 36.0s), fewer stops (212.7 vs 228.0 and 216.4), and lower travel time (9291.2s vs 9274.2s and 9955.6s). 'TSP+AC+PR' has higher delay (43.5s), more stops (277.6), and higher travel time (11012.0s) than 'TSP+AC+PPD'.
+    *   **Vehicles (EVE)**: Comparing 'TSP+AC+PPD' to 'TSP+AF+PPD' and 'TSP+RIR+PPD', AC has slightly higher delay (30.1s vs 27.4s and 31.7s), more stops (128.6 vs 123.3 and 134.8), and similar travel time (6986.0s vs 6744.8s and 7170.5s). 'TSP+AC+PR' has higher delay (44.0s), more stops (178.8), and higher travel time (8360.0s) than 'TSP+AC+PPD'.
+    *   **Pedestrians (MD & EVE)**: Pedestrian delay and travel time are generally higher under AC compared to AF and RIR.
+    *   **Buses (MD & EVE)**: Bus delay and travel time are generally higher under AC compared to AF and RIR.
+
+4. **Interpret the Results**:
+    *   The 'TSP+AC+PPD' scenario generally shows comparable or slightly better performance for vehicles in terms of delay, stops, and travel time compared to AF and RIR during both MD and EVE.
+    *   The 'TSP+AC+PR' scenario shows worse performance for vehicles in terms of delay, stops, and travel time compared to 'TSP+AC+PPD' during both MD and EVE. This is likely due to the pedestrian recall feature serving pedestrian phases every cycle, regardless of demand, which interrupts vehicle flow.
+    *   The AF and RIR scenarios perform similarly for vehicles.
+    *   Pedestrian and bus performance is generally worse under AC, likely due to prioritization of vehicle progression.
+
+5. **Conclude Clearly**: Overall network performance for vehicles is generally comparable or slightly better under Actuated Coordinated Control ('TSP+AC+PPD') compared to Actuated Free Control ('TSP+AF+PPD') or Rest-in-Red ('TSP+RIR+PPD') during Midday and Evening periods, but the 'TSP+AC+PR' scenario performs worse due to pedestrian recall. However, pedestrian and bus performance is generally worse under AC.
+
+-------------------------------------------------------------------- ANSWER END --------------------------------------------------------------------------------------
+
+3. RAG:
+
+-------------------------------------------------------------------- ANSWER START --------------------------------------------------------------------------------------
+
+## Analysis of Actuated Coordinated (AC) vs. Actuated Free (AF) Control
+
+The question asks whether Actuated Coordinated (AC) control performs better than Actuated Free (AF) control in terms of delay, stops, and travel time during the MD and EVE periods.
+
+Based on the SQL results, we can compare the performance of `TSP+AC+PPD` (Actuated Coordinated) and `TSP+AF+PPD` (Actuated Free) scenarios. Both scenarios also include Transit Signal Priority (TSP) and Passive Pedestrian Detection (PPD), allowing for a more direct comparison of the impact of coordination.
+
+**MD Period:**
+
+*   **Vehicles:**
+    *   `TSP+AC+PPD`: DELAYAVG = 30.79 s, STOPSTOT = 212.67, TRAVTMTOT = 9291.25 s
+    *   `TSP+AF+PPD`: DELAYAVG = 30.47 s, STOPSTOT = 228.00, TRAVTMTOT = 9274.24 s
+*   **Buses:**
+    *   `TSP+AC+PPD`: DELAYAVG = 39.63 s, STOPSTOT = 5.75, TRAVTMTOT = 177.15 s
+    *   `TSP+AF+PPD`: DELAYAVG = 38.77 s, STOPSTOT = 5.33, TRAVTMTOT = 173.58 s
+*   **Pedestrians:**
+    *   `TSP+AC+PPD`: DELAYAVG = 11.49 s, STOPSTOT = 10.67, TRAVTMTOT = 1746.06 s
+    *   `TSP+AF+PPD`: DELAYAVG = 7.84 s, STOPSTOT = 8.42, TRAVTMTOT = 1664.84 s
+
+**EVE Period:**
+
+*   **Vehicles:**
+    *   `TSP+AC+PPD`: DELAYAVG = 30.06 s, STOPSTOT = 128.58, TRAVTMTOT = 6986.03 s
+    *   `TSP+AF+PPD`: DELAYAVG = 27.42 s, STOPSTOT = 123.25, TRAVTMTOT = 6744.84 s
+*   **Buses:**
+    *   `TSP+AC+PPD`: DELAYAVG = 66.90 s, STOPSTOT = 2.42, TRAVTMTOT = 198.72 s
+    *   `TSP+AF+PPD`: DELAYAVG = 62.03 s, STOPSTOT = 2.00, TRAVTMTOT = 191.59 s
+*   **Pedestrians:**
+    *   `TSP+AC+PPD`: DELAYAVG = 10.03 s, STOPSTOT = 8.17, TRAVTMTOT = 1565.48 s
+    *   `TSP+AF+PPD`: DELAYAVG = 6.26 s, STOPSTOT = 6.92, TRAVTMTOT = 1491.76 s
+
+**Interpretation:**
+
+In both MD and EVE periods, Actuated Free (AF) control generally shows slightly better performance for vehicles, buses, and pedestrians, with lower average delays, fewer stops, and shorter total travel times compared to Actuated Coordinated (AC) control.
+
+**Justification:**
+
+*   **Actuated Free Control**: In `TSP+AF+PPD`, signals respond fully to real-time traffic demand without any coordination. This allows each intersection to optimize its timings based on immediate needs, potentially reducing delays and stops if demand fluctuates significantly.
+*   **Actuated Coordinated Control**: In `TSP+AC+PPD`, signals are coordinated, aiming to create a smoother flow of traffic along the corridor. However, coordination can sometimes be less efficient if traffic patterns deviate from the coordinated plan, leading to increased delays and stops at certain intersections. The coordination in `TSP+AC+PPD` is based on an average vehicle speed of 30 mph. If actual speeds differ significantly, the coordination may not be optimal.
+*   **Pedestrian Impact**: The presence of Passive Pedestrian Detection (PPD) in both scenarios means that pedestrian phases are only served when there is demand. However, the coordination in `TSP+AC+PPD` might force vehicles to stop unnecessarily for coordinated cycles, even if there are no pedestrians waiting, leading to slightly higher delays compared to `TSP+AF+PPD`.
+
+**Conclusion:**
+
+Based on the simulation results, overall network performance (delay, stops, travel time) is slightly *better* under Actuated Free (AF) control (`TSP+AF+PPD`) compared to Actuated Coordinated (AC) control (`TSP+AC+PPD`) during both MD and EVE periods. This suggests that in this specific scenario, the benefits of coordination are outweighed by the responsiveness of free actuation to fluctuating traffic demands.
+
+
+-------------------------------------------------------------------- ANSWER END --------------------------------------------------------------------------------------
+
+
+
+
+Retrieved Content for RAG:
+
+Top 1 Result:
+------------------------------
+Scenario Name: FT  
+Full Name: FIXED-TIME CONTROL
+
+Time Periods: AM, MD, PM, EVE 
+Applicable Modes: Vehicles, Buses, Pedestrians
+
+Description:  
+This scenario represents a new Fixed-Time (FT) control plan, where signal timings have been recalculated based on updated traffic demand measurements. It is designed to improve upon the existing Field conditions by better matching signal cycles to observed volumes. However, no advanced ITS or adaptive technologies are implemented. Pedestrian service is provided under Recall mode, meaning pedestrians are served every cycle regardless of demand. Signal control operates in a coordinated mode across the corridor.
+
+Key Features:  
+- Fixed-Time control using updated demand-based timing plans  
+- No actuated or adaptive signal features  
+- Pedestrian Recall (served every cycle)  
+- Coordinated control across multiple intersections
+
+Top 2 Result:
+------------------------------
+Scenario Name: TSP+AC(TFT)+PPD  
+Full Name: TRANSIT SIGNAL PRIORITY + ACTUATED COORDINATED CONTROL (TIMED FOR TRANSIT) + PASSIVE PEDESTRIAN DETECTION
+
+Time Periods: AM, PM
+Applicable Modes: Vehicles, Buses, Pedestrians
+
+Description:  
+This scenario implements an Actuated Coordinated (AC) signal control strategy that is timed specifically to favor transit progression. Signal coordination offsets are calculated based on an average bus travel speed of 10 mph to improve bus progression through the corridor. Actuated coordination is still in effect, with detectors installed on intersection approaches to enable demand-responsive green time allocation. Approaches without detected demand are skipped, allowing the system to prioritize movements with higher volume.
+
+Transit Signal Priority (TSP) is deployed as a cloud-based system. It monitors real-time bus schedule adherence and intervenes when a bus is behind schedule by dynamically extending the green phase or shortening the red at the next signal, depending on its current state. These adjustments are performed locally at each intersection.
+
+Pedestrian service is provided through Passive Pedestrian Detection (PPD), meaning pedestrians are only served when their presence is detected, unlike Recall mode which serves them every cycle. Coordinated signal timing remains active across the corridor to preserve progression for all modes.
+
+Key Features:  
+- Actuated Coordinated signal control (with demand-based detection)  
+- Transit-favoring coordination (timed to bus speed of 10 mph)  
+- Skips low-demand phases to optimize efficiency  
+- Passive Pedestrian Detection (presence-based service)  
+- Transit Signal Priority (cloud-based, schedule-responsive logic)
+
+Top 3 Result:
+------------------------------
+Scenario Name: TSP+AC+PR  
+Full Name: TRANSIT SIGNAL PRIORITY + ACTUATED COORDINATED CONTROL + PEDESTRIAN RECALL
+
+Time Periods: AM, MD, PM, EVE
+Applicable Modes: Vehicles, Buses, Pedestrians
+
+Description:  
+This scenario implements an Actuated Coordinated (AC) signal control strategy with signal timings recalculated based on updated traffic demand data. Vehicle detectors are installed at intersection approaches to dynamically allocate green time based on detected presence. Low-demand approaches are skipped, allowing more green time to be assigned to high-volume movements, improving corridor efficiency.
+
+Transit Signal Priority (TSP) is deployed as a cloud-based system that monitors real-time bus schedule adherence. When a bus is detected to be running behind schedule, the system adjusts the upcoming signal by either extending the green or shortening the red phase to reduce bus delay. These adjustments are applied locally at each intersection.
+
+Pedestrian service operates under Recall mode (PR), meaning pedestrian phases are served in every cycle, regardless of actual demand. While this guarantees consistent pedestrian service, it limits the efficiency of actuated control. For example, even in the absence of vehicular demand on minor approaches, the signal will activate those phases solely due to pedestrian recall, potentially reducing system responsiveness and increasing unnecessary delay.
+
+Key Features:  
+- Actuated Coordinated signal control (demand-responsive)  
+- Coordinated signal operations across the corridor  
+- Transit Signal Priority (cloud-based, schedule-responsive logic)  
+- Pedestrian Recall (pedestrian phases served every cycle, regardless of presence)
+
+Top 4 Result:
+------------------------------
+Scenario Name: FIELD  
+Full Name: FIELD CONDITIONS
+
+Time Periods: AM, MD, PM, EVE 
+Applicable Modes: Vehicles, Buses, Pedestrians
+
+Description:  
+This scenario reflects the existing field conditions and serves as the baseline for comparison with all other configurations. It operates using a pre-existing Fixed-Time (FT) control plan developed prior to this project. No advanced ITS or adaptive technologies are implemented. Pedestrian service operates under Recall mode, meaning pedestrians are served every cycle regardless of detection. The signal operates in a coordinated mode across the corridor.
+
+Key Features:  
+- Baseline condition for performance comparison  
+- Fixed-Time control (pre-project plan)  
+- Pedestrian Recall (served every cycle)  
+- Signal coordination across intersections

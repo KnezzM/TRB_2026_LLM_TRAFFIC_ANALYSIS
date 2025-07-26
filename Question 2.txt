@@ -1,0 +1,265 @@
+Question: Is TSP still beneficial during Midday or Evening periods, based on delay and number of stops?
+
+
+SQL Agent Output:
+
+SELECT
+    Scenario,
+    TimePeriod,
+    VehicleType,
+    MeasureType,
+    AVG(Value) AS avg_value
+FROM
+    network_performance
+WHERE
+    TimePeriod IN ('MD', 'EVE')
+    AND MeasureType IN ('DELAYAVG', 'DELAYSTOPAVG', 'STOPSTOT')
+    AND Scenario IN ('FT', 'TSP+FT', 'TSP+AC+PR', 'TSP+AC+PPD', 'TSP+AC(TFT)+PPD', 'TSP+AC+PPD+PGE', 'TSP+AC+PPD+PGE+EP', 'TSP+GLOSA(10)+AC+PPD', 'TSP+GLOSA(20)+AC+PPD', 'TSP+GLOSA(30)+AC+PPD', 'TSP+AF+PPD', 'TSP+AF+PPD+PGE+EP', 'TSP+RIR+PPD', 'TSP+RIR+PPD+PGE')
+GROUP BY
+    Scenario,
+    TimePeriod,
+    VehicleType,
+    MeasureType;
+
+
+
+Reasoning Agent Output:
+
+1. Basic Instructions Pipeline:
+
+-------------------------------------------------------------------- ANSWER START --------------------------------------------------------------------------------------
+
+Okay, let's analyze the data to determine if Transit Signal Priority (TSP) is still beneficial during the Midday (MD) and Evening (EVE) periods, focusing on delay and number of stops. We'll compare scenarios with TSP to those without (Fixed-Time control - FT) and also compare different TSP implementations.
+
+**Midday (MD) Analysis:**
+
+*   **Fixed-Time (FT) vs. TSP+AC+PPD:**
+    *   **Buses:** The average delay for buses under FT is 42.33 seconds, while with `TSP+AC+PPD` it's reduced to 39.63 seconds. The average stop delay decreases from 11.93 seconds to 6.89 seconds, and the total number of stops increases from 2.0 to 5.75.
+    *   **Vehicles:** The average delay for vehicles under FT is 44.39 seconds, while with `TSP+AC+PPD` it's reduced to 30.79 seconds. The average stop delay decreases from 25.08 seconds to 14.97 seconds, and the total number of stops decreases from 296.0 to 212.67.
+    *   **Pedestrians:** The average delay for pedestrians under FT is 9.38 seconds, while with `TSP+AC+PPD` it increases to 11.49 seconds. The average stop delay increases from 8.80 seconds to 10.81 seconds, and the total number of stops increases from 9.42 to 10.67.
+
+*   **Fixed-Time (FT) vs. TSP+AC+PR:**
+    *   **Buses:** The average delay for buses under FT is 42.33 seconds, while with `TSP+AC+PR` it increases to 47.42 seconds. The average stop delay increases from 11.93 seconds to 13.08 seconds, and the total number of stops increases from 2.0 to 3.25.
+    *   **Vehicles:** The average delay for vehicles under FT is 44.39 seconds, while with `TSP+AC+PR` it decreases to 43.51 seconds. The average stop delay decreases from 25.08 seconds to 24.16 seconds, and the total number of stops decreases from 296.0 to 277.58.
+    *   **Pedestrians:** The average delay for pedestrians under FT is 9.38 seconds, while with `TSP+AC+PR` it increases to 10.86 seconds. The average stop delay increases from 8.80 seconds to 10.22 seconds, and the total number of stops increases from 9.42 to 10.42.
+
+*   **Fixed-Time (FT) vs. TSP+AF+PPD:**
+    *   **Buses:** The average delay for buses under FT is 42.33 seconds, while with `TSP+AF+PPD` it's reduced to 38.77 seconds. The average stop delay decreases from 11.93 seconds to 6.15 seconds, and the total number of stops increases from 2.0 to 5.33.
+    *   **Vehicles:** The average delay for vehicles under FT is 44.39 seconds, while with `TSP+AF+PPD` it's reduced to 30.47 seconds. The average stop delay decreases from 25.08 seconds to 14.36 seconds, and the total number of stops decreases from 296.0 to 228.0.
+    *   **Pedestrians:** The average delay for pedestrians under FT is 9.38 seconds, while with `TSP+AF+PPD` it decreases to 7.84 seconds. The average stop delay decreases from 8.80 seconds to 7.30 seconds, and the total number of stops decreases from 9.42 to 8.42.
+
+*   **Fixed-Time (FT) vs. TSP+AF+PPD+PGE+EP:**
+    *   **Buses:** The average delay for buses under FT is 42.33 seconds, while with `TSP+AF+PPD+PGE+EP` it's reduced to 33.73 seconds. The average stop delay decreases from 11.93 seconds to 4.02 seconds, and the total number of stops decreases from 2.0 to 1.58.
+    *   **Vehicles:** The average delay for vehicles under FT is 44.39 seconds, while with `TSP+AF+PPD+PGE+EP` it's reduced to 30.83 seconds. The average stop delay decreases from 25.08 seconds to 15.34 seconds, and the total number of stops decreases from 296.0 to 186.58.
+    *   **Pedestrians:** The average delay for pedestrians under FT is 9.38 seconds, while with `TSP+AF+PPD+PGE+EP` it decreases to 8.46 seconds. The average stop delay decreases from 8.80 seconds to 7.94 seconds, and the total number of stops decreases from 9.42 to 8.08.
+
+*   **Fixed-Time (FT) vs. TSP+FT:**
+    *   **Buses:** The average delay for buses under FT is 42.33 seconds, while with `TSP+FT` it's reduced to 42.04 seconds. The average stop delay decreases from 11.93 seconds to 10.82 seconds, and the total number of stops increases from 2.0 to 2.08.
+    *   **Vehicles:** The average delay for vehicles under FT is 44.39 seconds, while with `TSP+FT` it remains almost the same at 44.40 seconds. The average stop delay decreases from 25.08 seconds to 24.96 seconds, and the total number of stops increases from 296.0 to 298.92.
+    *   **Pedestrians:** The average delay for pedestrians under FT is 9.38 seconds, while with `TSP+FT` it remains almost the same at 9.29 seconds. The average stop delay decreases from 8.80 seconds to 8.72 seconds, and the total number of stops remains the same at 9.42.
+
+*   **Fixed-Time (FT) vs. TSP+RIR+PPD:**
+    *   **Buses:** The average delay for buses under FT is 42.33 seconds, while with `TSP+RIR+PPD` it's reduced to 36.99 seconds. The average stop delay decreases from 11.93 seconds to 5.66 seconds, and the total number of stops decreases from 2.0 to 1.67.
+    *   **Vehicles:** The average delay for vehicles under FT is 44.39 seconds, while with `TSP+RIR+PPD` it's reduced to 35.97 seconds. The average stop delay decreases from 25.08 seconds to 18.33 seconds, and the total number of stops decreases from 296.0 to 216.42.
+    *   **Pedestrians:** The average delay for pedestrians under FT is 9.38 seconds, while with `TSP+RIR+PPD` it increases to 13.25 seconds. The average stop delay increases from 8.80 seconds to 12.58 seconds, and the total number of stops increases from 9.42 to 10.75.
+
+**Evening (EVE) Analysis:**
+
+*   **Fixed-Time (FT) vs. TSP+AC+PPD:**
+    *   **Buses:** The average delay for buses under FT is 78.89 seconds, while with `TSP+AC+PPD` it's reduced to 66.90 seconds. The average stop delay decreases from 20.32 seconds to 8.82 seconds, and the total number of stops decreases from 2.58 to 2.42.
+    *   **Vehicles:** The average delay for vehicles under FT is 45.69 seconds, while with `TSP+AC+PPD` it's reduced to 30.06 seconds. The average stop delay decreases from 25.62 seconds to 14.74 seconds, and the total number of stops decreases from 189.25 to 128.58.
+    *   **Pedestrians:** The average delay for pedestrians under FT is 7.63 seconds, while with `TSP+AC+PPD` it increases to 10.03 seconds. The average stop delay increases from 7.14 seconds to 9.46 seconds, and the total number of stops increases from 7.0 to 8.17.
+
+*   **Fixed-Time (FT) vs. TSP+AC+PR:**
+    *   **Buses:** The average delay for buses under FT is 78.89 seconds, while with `TSP+AC+PR` it's reduced to 78.52 seconds. The average stop delay decreases from 20.32 seconds to 18.43 seconds, and the total number of stops decreases from 2.58 to 2.17.
+    *   **Vehicles:** The average delay for vehicles under FT is 45.69 seconds, while with `TSP+AC+PR` it's reduced to 43.98 seconds. The average stop delay decreases from 25.62 seconds to 24.45 seconds, and the total number of stops decreases from 189.25 to 178.75.
+    *   **Pedestrians:** The average delay for pedestrians under FT is 7.63 seconds, while with `TSP+AC+PR` it increases to 8.81 seconds. The average stop delay increases from 7.14 seconds to 8.28 seconds, and the total number of stops increases from 7.0 to 7.92.
+
+*   **Fixed-Time (FT) vs. TSP+AF+PPD:**
+    *   **Buses:** The average delay for buses under FT is 78.89 seconds, while with `TSP+AF+PPD` it's reduced to 62.03 seconds. The average stop delay decreases from 20.32 seconds to 4.88 seconds, and the total number of stops decreases from 2.58 to 2.0.
+    *   **Vehicles:** The average delay for vehicles under FT is 45.69 seconds, while with `TSP+AF+PPD` it's reduced to 27.42 seconds. The average stop delay decreases from 25.62 seconds to 12.18 seconds, and the total number of stops decreases from 189.25 to 123.25.
+    *   **Pedestrians:** The average delay for pedestrians under FT is 7.63 seconds, while with `TSP+AF+PPD` it decreases to 6.26 seconds. The average stop delay decreases from 7.14 seconds to 5.85 seconds, and the total number of stops decreases from 7.0 to 6.92.
+
+*   **Fixed-Time (FT) vs. TSP+FT:**
+    *   **Buses:** The average delay for buses under FT is 78.89 seconds, while with `TSP+FT` it's reduced to 78.10 seconds. The average stop delay decreases from 20.32 seconds to 19.09 seconds, and the total number of stops decreases from 2.58 to 2.5.
+    *   **Vehicles:** The average delay for vehicles under FT is 45.69 seconds, while with `TSP+FT` it's reduced to 45.47 seconds. The average stop delay decreases from 25.62 seconds to 25.33 seconds, and the total number of stops decreases from 189.25 to 188.33.
+    *   **Pedestrians:** The average delay for pedestrians under FT is 7.63 seconds, while with `TSP+FT` it increases to 7.68 seconds. The average stop delay increases from 7.14 seconds to 7.19 seconds, and the total number of stops increases from 7.0 to 7.17.
+
+*   **Fixed-Time (FT) vs. TSP+RIR+PPD:**
+    *   **Buses:** The average delay for buses under FT is 78.89 seconds, while with `TSP+RIR+PPD` it's reduced to 63.06 seconds. The average stop delay decreases from 20.32 seconds to 7.11 seconds, and the total number of stops decreases from 2.58 to 1.0.
+    *   **Vehicles:** The average delay for vehicles under FT is 45.69 seconds, while with `TSP+RIR+PPD` it's reduced to 31.68 seconds. The average stop delay decreases from 25.62 seconds to 15.48 seconds, and the total number of stops decreases from 189.25 to 134.83.
+    *   **Pedestrians:** The average delay for pedestrians under FT is 7.63 seconds, while with `TSP+RIR+PPD` it increases to 9.36 seconds. The average stop delay increases from 7.14 seconds to 8.88 seconds, and the total number of stops increases from 7.0 to 7.42.
+
+*   **Fixed-Time (FT) vs. TSP+RIR+PPD+PGE:**
+    *   **Buses:** The average delay for buses under FT is 78.89 seconds, while with `TSP+RIR+PPD+PGE` it's reduced to 65.34 seconds. The average stop delay decreases from 20.32 seconds to 5.40 seconds, and the total number of stops decreases from 2.58 to 0.92.
+    *   **Vehicles:** The average delay for vehicles under FT is 45.69 seconds, while with `TSP+RIR+PPD+PGE` it's reduced to 32.22 seconds. The average stop delay decreases from 25.62 seconds to 15.67 seconds, and the total number of stops decreases from 189.25 to 118.83.
+    *   **Pedestrians:** The average delay for pedestrians under FT is 7.63 seconds, while with `TSP+RIR+PPD+PGE` it decreases to 7.11 seconds. The average stop delay decreases from 7.14 seconds to 6.65 seconds, and the total number of stops decreases from 7.0 to 6.5.
+
+**Interpretation:**
+
+*   **TSP Benefits:** Generally, implementing TSP (in various forms) *does* provide benefits during both Midday and Evening periods compared to Fixed-Time control. We see reductions in average delay and the number of stops for both buses and vehicles in most scenarios.
+*   **Pedestrian Impacts:** It's important to note that some TSP implementations, particularly `TSP+AC+PPD`, `TSP+AC+PR`, and `TSP+RIR+PPD`, can *increase* pedestrian delay and stops. This is likely due to prioritizing vehicle and bus movements, potentially at the expense of pedestrian crossing times.
+*   **Scenario Comparison:**
+    *   `TSP+AF+PPD` and `TSP+AF+PPD+PGE+EP` appear to be particularly effective at reducing delays and stops for both buses and vehicles during both time periods.
+    *   `TSP+RIR+PPD` and `TSP+RIR+PPD+PGE` also show significant improvements, especially for buses.
+    *   `TSP+FT` provides the least improvement, as it's essentially a fixed-time plan with minor adjustments for buses.
+*   **Time of Day:** The benefits of TSP are generally more pronounced during the Evening period, likely because traffic volumes are still relatively high, and TSP can effectively optimize signal timings. During the Midday period, the benefits are still present but less dramatic, as traffic is typically lighter and more dispersed.
+
+**Final Answer:**
+
+Yes, TSP is generally still beneficial during Midday and Evening periods, as it reduces delays and stops for buses and vehicles compared to fixed-time control. However, some implementations can negatively impact pedestrian delay. `TSP+AF+PPD`, `TSP+AF+PPD+PGE+EP`, `TSP+RIR+PPD`, and `TSP+RIR+PPD+PGE` appear to be the most effective strategies. It's crucial to carefully consider the specific TSP implementation and its potential impact on all modes of transportation, including pedestrians.
+
+-------------------------------------------------------------------- ANSWER END --------------------------------------------------------------------------------------
+
+
+2. CoT:
+
+-------------------------------------------------------------------- ANSWER START --------------------------------------------------------------------------------------
+
+
+1. **Understand the Question**: The question asks whether Transit Signal Priority (TSP) remains beneficial during the Midday (MD) and Evening (EVE) periods, focusing on the performance measures of average delay and total number of stops for buses, vehicles, and pedestrians.
+
+2. **Summarize the Data**: The data compares the performance of Fixed-Time control (FT) against several TSP-enabled scenarios during the Midday and Evening periods. Key metrics are average delay (DELAYAVG) and total stops (STOPSTOT) for buses, vehicles, and pedestrians. We will focus on scenarios that show a clear benefit from TSP.
+
+3. **Compare Dimensions**:
+    *   **Buses**: Comparing 'FT' to 'TSP+AC+PPD' during the Midday period, the bus average delay decreases from 42.33 to 39.63 seconds, and the number of stops increases from 2.0 to 5.75. During the Evening period, the bus average delay decreases from 78.89 to 66.90 seconds, and the number of stops decreases from 2.58 to 2.42.
+    *   **Vehicles**: Comparing 'FT' to 'TSP+AC+PPD' during the Midday period, the vehicle average delay decreases from 44.39 to 30.79 seconds, and the number of stops decreases from 296.0 to 212.67. During the Evening period, the vehicle average delay decreases from 45.69 to 30.06 seconds, and the number of stops decreases from 189.25 to 128.58.
+    *   **Pedestrians**: Comparing 'FT' to 'TSP+AC+PPD' during the Midday period, the pedestrian average delay increases from 9.38 to 11.49 seconds, and the number of stops increases from 9.42 to 10.67. During the Evening period, the pedestrian average delay increases from 7.63 to 10.03 seconds, and the number of stops increases from 7.0 to 8.17.
+    *   **Buses**: Comparing 'FT' to 'TSP+AF+PPD' during the Midday period, the bus average delay decreases from 42.33 to 38.77 seconds, and the number of stops increases from 2.0 to 5.33. During the Evening period, the bus average delay decreases from 78.89 to 62.03 seconds, and the number of stops decreases from 2.58 to 2.0.
+    *   **Vehicles**: Comparing 'FT' to 'TSP+AF+PPD' during the Midday period, the vehicle average delay decreases from 44.39 to 30.47 seconds, and the number of stops decreases from 296.0 to 228.0. During the Evening period, the vehicle average delay decreases from 45.69 to 27.42 seconds, and the number of stops decreases from 189.25 to 123.25.
+    *   **Pedestrians**: Comparing 'FT' to 'TSP+AF+PPD' during the Midday period, the pedestrian average delay decreases from 9.38 to 7.84 seconds, and the number of stops decreases from 9.42 to 8.42. During the Evening period, the pedestrian average delay decreases from 7.63 to 6.26 seconds, and the number of stops decreases from 7.0 to 6.92.
+    *   **Buses**: Comparing 'FT' to 'TSP+RIR+PPD' during the Midday period, the bus average delay decreases from 42.33 to 36.99 seconds, and the number of stops decreases from 2.0 to 1.67. During the Evening period, the bus average delay decreases from 78.89 to 63.06 seconds, and the number of stops decreases from 2.58 to 1.0.
+    *   **Vehicles**: Comparing 'FT' to 'TSP+RIR+PPD' during the Midday period, the vehicle average delay decreases from 44.39 to 35.97 seconds, and the number of stops decreases from 296.0 to 216.42. During the Evening period, the vehicle average delay decreases from 45.69 to 31.68 seconds, and the number of stops decreases from 189.25 to 134.83.
+    *   **Pedestrians**: Comparing 'FT' to 'TSP+RIR+PPD' during the Midday period, the pedestrian average delay increases from 9.38 to 13.25 seconds, and the number of stops increases from 9.42 to 10.75. During the Evening period, the pedestrian average delay increases from 7.63 to 9.36 seconds, and the number of stops increases from 7.0 to 7.42.
+
+4. **Interpret the Results**: The data suggests that TSP is generally beneficial during both Midday and Evening periods. Scenarios like 'TSP+AC+PPD', 'TSP+AF+PPD', and 'TSP+RIR+PPD' consistently show reduced average delay and total stops for vehicles and buses compared to the 'FT' scenario. However, pedestrian delays and stops may increase in some scenarios, indicating a trade-off between vehicle/bus efficiency and pedestrian convenience.
+
+5. **Conclude Clearly**: Yes, TSP remains beneficial during Midday and Evening periods, as demonstrated by the 'TSP+AC+PPD', 'TSP+AF+PPD', and 'TSP+RIR+PPD' scenarios, which show a reduction in average delay and total stops for vehicles and buses compared to the 'FT' scenario. However, pedestrian performance may be negatively impacted in some scenarios.
+
+-------------------------------------------------------------------- ANSWER END --------------------------------------------------------------------------------------
+
+3. RAG:
+
+-------------------------------------------------------------------- ANSWER START --------------------------------------------------------------------------------------
+
+TBased on the simulation results and scenario descriptions, TSP generally remains beneficial during the MD and EVE periods, but the extent of the benefit depends on the specific control strategy in place.
+
+**Analysis of Delay and Stops:**
+
+To assess the benefit of TSP, I will compare scenarios with TSP to those without TSP, focusing on bus performance (DELAYAVG and STOPSTOT) during the MD and EVE periods. Since there are no scenarios without TSP in the provided data, I will compare scenarios with different control strategies that include TSP.
+
+*   **TSP+AC+PPD vs. TSP+AC+PR:** Comparing these two scenarios highlights the impact of pedestrian control strategies on overall performance.
+
+    *   **MD Period:** TSP+AC+PPD has lower bus delay (39.63s vs 47.42s) and more stops (5.75 vs 3.25) than TSP+AC+PR. For vehicles, TSP+AC+PPD has lower delay (30.79s vs 43.51s) and fewer stops (212.67 vs 277.58) than TSP+AC+PR.
+    *   **EVE Period:** TSP+AC+PPD has lower bus delay (66.90s vs 78.52s) and more stops (2.42 vs 2.17) than TSP+AC+PR. For vehicles, TSP+AC+PPD has lower delay (30.06s vs 43.98s) and fewer stops (128.58 vs 178.75) than TSP+AC+PR.
+
+    *Justification:* The improved performance of TSP+AC+PPD compared to TSP+AC+PR can be attributed to the Passive Pedestrian Detection (PPD). According to the scenario descriptions, PPD serves pedestrians only when they are detected, whereas Pedestrian Recall (PR) serves them every cycle regardless of demand. This reduces unnecessary phase activations and allows more green time for vehicle and bus movements, reducing delay and stops, especially during lower-demand periods like MD and EVE.
+
+*   **TSP+RIR+PPD vs. TSP+RIR+PPD+PGE:** Comparing these two scenarios highlights the impact of pedestrian green extension on overall performance.
+
+    *   **EVE Period:** TSP+RIR+PPD has lower bus delay (63.06s vs 65.34s) and more stops (1.0 vs 0.92) than TSP+RIR+PPD+PGE. For vehicles, TSP+RIR+PPD has lower delay (31.68s vs 32.22s) and more stops (134.83 vs 118.83) than TSP+RIR+PPD+PGE.
+    *   **MD Period:** There is no data for TSP+RIR+PPD+PGE during the MD period.
+
+    *Justification:* The improved performance of TSP+RIR+PPD compared to TSP+RIR+PPD+PGE can be attributed to the Pedestrian Green Extension (PGE). According to the scenario descriptions, PGE extends the green time of the current vehicle phase if slow-moving pedestrians are still within the crosswalk at the end of their walk phase. While effective for safety, this feature may introduce additional delay, especially on minor streets.
+
+**Conclusion:**
+
+TSP remains beneficial during the MD and EVE periods, as evidenced by the reduced delay experienced by buses in the scenarios where it is implemented. However, the specific control strategy and pedestrian management techniques significantly influence the overall performance. Passive Pedestrian Detection (PPD) generally improves efficiency by reducing unnecessary phase activations, while Pedestrian Green Extension (PGE) may introduce additional delay.
+
+
+-------------------------------------------------------------------- ANSWER END --------------------------------------------------------------------------------------
+
+
+
+
+Retrieved Content for RAG:
+
+Top 1 Result:
+------------------------------
+Scenario Name: TSP+RIR+PPD+PGE
+Full Name: TRANSIT SIGNAL PRIORITY + REST IN RED + PASSIVE PEDESTRIAN DETECTION + PEDESTRIAN GREEN EXTENSION
+
+Time Periods: EVE  
+Applicable Modes: Vehicles, Buses, Pedestrians
+
+Description:  
+This scenario implements a Rest-in-Red (RIR) signal control plan, with signal timings recalculated based on updated traffic demand data. Vehicle detectors are installed at all approaches. Unlike conventional coordinated or free control systems, all signals remain in red by default. When a vehicle is detected at an approach, the signal changes to green for that approach only. Once the vehicle passes, the signal returns to red. Each intersection operates independently, with no corridor-wide coordination.
+
+The RIR strategy allows intersections to respond immediately to localized, real-time demand. It is particularly effective during low-volume periods (e.g., Midday and Evening), when coordinated offsets may delay minor street movements. Additionally, by defaulting to red, RIR may enhance safety by encouraging drivers to decelerate when approaching the intersection.
+
+Transit Signal Priority (TSP) is integrated as a cloud-based ITS feature. It continuously monitors real-time bus schedule adherence and dynamically adjusts upcoming signals—extending green or shortening red phases—based on bus delay status and current signal state.
+
+Pedestrian service is governed by Passive Pedestrian Detection (PPD), meaning pedestrians are served only when presence is detected. No pedestrian recall is used, minimizing unnecessary signal phase activations.
+
+The Pedestrian Green Extension (PGE) feature enhances pedestrian safety by extending the green time of the current vehicle phase if slow-moving pedestrians are still within the crosswalk at the end of their walk phase. During the extension, the "Don't Walk" signal remains active to prevent new pedestrians from entering, and conflicting vehicular movements are held. While effective for safety, this feature may introduce additional delay, especially on minor streets.
+
+Key Features:  
+- Rest-in-Red signal control (red by default, green on vehicle detection)  
+- Fully independent, demand-responsive intersection operation  
+- Enhanced safety by default red on approach  
+- Passive Pedestrian Detection (presence-based pedestrian service)  
+- Transit Signal Priority (cloud-based, schedule-responsive logic)
+- Pedestrian Green Extension (clearance extension for slow pedestrians)
+
+Top 2 Result:
+------------------------------
+Scenario Name: TSP+FT  
+Full Name: TRANSIT SIGNAL PRIORITY + FIXED-TIME CONTROL
+
+Time Periods: AM, MD, PM, EVE  
+Applicable Modes: Vehicles, Buses, Pedestrians
+
+Description:  
+This scenario implements a new Fixed-Time (FT) signal control plan, with timings recalculated based on updated traffic demand measurements. It also integrates Transit Signal Priority (TSP) to enhance bus performance. Pedestrian service operates under Recall mode, meaning pedestrians are served in every cycle regardless of demand. Signal operations are coordinated across the corridor.
+
+The TSP system is a cloud-based ITS technology that monitors bus schedule adherence. When a bus is detected to be running behind schedule, the system extends the green phase or shortens the red phase at the upcoming intersection, depending on the signal state. This intervention is applied at each intersection individually to prioritize transit movement while maintaining a fixed-time base control.
+
+Key Features:  
+- Fixed-Time control based on updated demand patterns  
+- Coordinated signal operations  
+- Pedestrian Recall (served every cycle)  
+- Transit Signal Priority (cloud-based, schedule-based logic)  
+- No actuated or adaptive control components
+
+Top 3 Result:
+------------------------------
+Scenario Name: TSP+AC+PR  
+Full Name: TRANSIT SIGNAL PRIORITY + ACTUATED COORDINATED CONTROL + PEDESTRIAN RECALL
+
+Time Periods: AM, MD, PM, EVE
+Applicable Modes: Vehicles, Buses, Pedestrians
+
+Description:  
+This scenario implements an Actuated Coordinated (AC) signal control strategy with signal timings recalculated based on updated traffic demand data. Vehicle detectors are installed at intersection approaches to dynamically allocate green time based on detected presence. Low-demand approaches are skipped, allowing more green time to be assigned to high-volume movements, improving corridor efficiency.
+
+Transit Signal Priority (TSP) is deployed as a cloud-based system that monitors real-time bus schedule adherence. When a bus is detected to be running behind schedule, the system adjusts the upcoming signal by either extending the green or shortening the red phase to reduce bus delay. These adjustments are applied locally at each intersection.
+
+Pedestrian service operates under Recall mode (PR), meaning pedestrian phases are served in every cycle, regardless of actual demand. While this guarantees consistent pedestrian service, it limits the efficiency of actuated control. For example, even in the absence of vehicular demand on minor approaches, the signal will activate those phases solely due to pedestrian recall, potentially reducing system responsiveness and increasing unnecessary delay.
+
+Key Features:  
+- Actuated Coordinated signal control (demand-responsive)  
+- Coordinated signal operations across the corridor  
+- Transit Signal Priority (cloud-based, schedule-responsive logic)  
+- Pedestrian Recall (pedestrian phases served every cycle, regardless of presence)
+
+Top 4 Result:
+------------------------------
+Scenario Name: TSP+AC+PPD  
+Full Name: TRANSIT SIGNAL PRIORITY + ACTUATED COORDINATED CONTROL + PASSIVE PEDESTRIAN DETECTION
+
+Time Periods: AM, MD, PM, EVE
+Applicable Modes: Vehicles, Buses, Pedestrians
+
+Description:  
+This scenario implements an Actuated Coordinated (AC) signal control plan, with timing parameters recalculated based on updated traffic demand data. Detectors are installed at intersection approaches to dynamically allocate green time based on detected vehicle presence. Approaches without detected demand are skipped, allowing more green time to be allocated to busier approaches, thus improving efficiency.
+
+Transit Signal Priority (TSP) is integrated as a cloud-based ITS feature. It monitors bus adherence to schedule and, if a bus is behind schedule, modifies the signal state at the upcoming intersection by either extending the green phase or shortening the red. This dynamic TSP adjustment is applied locally at each intersection.
+
+Pedestrian service operates under Passive Detection mode, meaning pedestrians are served only when demand is detected, unlike Recall mode where they are served every cycle. Signals remain coordinated along the corridor to preserve progression benefits.
+
+Key Features:  
+- Actuated Coordinated signal control based on vehicle detection  
+- Skips low-demand approaches, reallocates green to higher-demand ones  
+- Coordinated signal operations across intersections  
+- Passive Pedestrian Detection (served based on presence)  
+- Transit Signal Priority (cloud-based, schedule-based logic)
