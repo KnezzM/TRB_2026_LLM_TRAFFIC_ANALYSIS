@@ -1,0 +1,24 @@
+Q1:
+
+Similarity Score: 87%
+Justification: Both responses agree that TSP improves bus performance, particularly by reducing the number of stops, and generally does not harm vehicle operations. They identify Actuated Coordinated Control as more effective than Fixed-Time Control for TSP deployment. The human response provides more nuanced interpretation, including explanations of why performance varies by pedestrian strategy and coordination scheme. The AI response is more data-driven, citing specific values and describing trends clearly, but it misses the higher-level insights about signal coordination mechanics and broader strategic implications (e.g., pedestrian impacts, operational tradeoffs). Despite differences in depth and framing, the core conclusions align semantically.
+
+Q2:
+
+Similarity Score: 84%
+Justification: Both the human and AI responses conclude that TSP remains beneficial during Midday and Evening periods, especially when paired with adaptive or responsive strategies like Actuated Free Control or Rest-in-Red. They also agree that configurations using Passive Pedestrian Detection outperform those using Pedestrian Recall or Green Extension. The key difference is in focus: the human response provides broader contextual insights, strategy interpretation, and practical deployment implications, while the AI response relies heavily on numerical comparisons and scenario-specific results. Despite the difference in style and depth, the semantic core—that TSP is still effective off-peak when paired with appropriate control strategies—is clearly aligned.
+
+Q3:
+
+Similarity Score: 89%
+Justification: Both responses conclude that Actuated Control strategies (AC, AF, RIR) generally outperform Fixed-Time Control (FT), especially under variable and low-demand conditions. They identify the advantages of demand responsiveness, green time optimization, and pedestrian detection as key benefits of actuated systems. The human response provides more nuanced explanations, referencing directional coordination, pedestrian signal timing implications, and scenario-specific trade-offs (e.g., PM southbound FT+TSP performance). The AI response reinforces the same insights through detailed numeric comparisons and structured scenario analysis. Despite stylistic differences—narrative vs. tabular/statistical—their semantic interpretations and conclusions are well aligned.
+
+Q4:
+
+Similarity Score: 82%
+Justification: Both responses agree that Actuated Free Control (AF) tends to reduce stops and pedestrian delay more effectively, while Actuated Coordinated Control (AC) offers benefits for delay and corridor progression—especially under directional flows. However, they differ in emphasis: the human analysis frames the trade-offs in terms of strategic corridor priorities (vehicle vs. transit emphasis), and endorses AC+PPD as the preferred default strategy for its balanced and consistent performance. In contrast, the AI response focuses strictly on quantitative comparison and concludes AF performs slightly better across all metrics, implicitly favoring it. Despite this divergence in conclusion and framing, the semantic overlap is substantial: both acknowledge context-specific trade-offs and highlight AC’s coordination advantage versus AF’s responsiveness.
+
+Q5:
+
+Similarity Score: 86%
+Justification: Both the human and AI responses identify TSP+AC+PPD as the most consistently balanced strategy across all time periods. They agree on the benefits of Actuated Coordinated Control with Passive Pedestrian Detection for achieving multimodal efficiency. Both also acknowledge that other strategies like TSP+AF+PPD or TSP+RIR+PPD may outperform in specific metrics (e.g., bus stops or pedestrian delay) but come with trade-offs like reduced corridor coordination. The human analysis adds stronger contextual reasoning for each recommendation (e.g., directional flow, progression, and trade-off framing), while the AI response provides more tabular, data-driven justifications. Despite differences in presentation and detail, both responses recommend nearly identical scenarios and rationale, demonstrating high semantic alignment.

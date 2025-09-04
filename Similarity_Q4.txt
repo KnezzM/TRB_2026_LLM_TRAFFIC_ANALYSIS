@@ -1,0 +1,58 @@
+Question: Is overall network performance (delay, stops, travel time) better under Actuated Coordinated Control compared to Actuated Free Control during Midday and Evening periods?
+
+Human Analysis:
+Both Actuated Coordinated Control and Actuated Free Control consistently outperformed Fixed-Time and field conditions during the Midday and Evening periods. However, determining which actuated strategy performs better requires separate analysis for each time period. Actuated Coordinated Control generally resulted in lower overall delay and improved signal progression, while Actuated Free Control more effectively reduced the number of stops. These differences highlight the trade-offs between minimizing delay and reducing stops, underscoring the complexity of selecting an optimal control strategy based on operational priorities.
+Midday Period Insights:
+During the Midday period, Actuated Coordinated Control with Passive Pedestrian Detection achieved the lowest average vehicle delay and most consistent travel times in both directions, highlighting its ability to allocate green time efficiently and sustain progression under variable demand. This aligns with prior findings showing the robustness of coordinated actuated control during higher demand periods. In contrast, the combination of Transit Signal Priority with Actuated Free Control and Passive Pedestrian Detection resulted in the lowest bus delays and fewest stops, reflecting the benefits of greater flexibility and responsiveness in low-volume environments. While Actuated Coordinated Control offered the best system-wide vehicle performance, Actuated Free Control more effectively leveraged transit priority features. Therefore, selection between the two strategies should depend on corridor priorities: if overall vehicle delay is the primary concern, coordinated control is preferable; if enhancing transit operations is the objective, free control may be more appropriate.
+Evening Period Insights:
+In terms of overall network performance, Actuated Coordinated Control combined with Passive Pedestrian Detection consistently delivered the best results across all time-of-day periods, minimizing vehicle delay, stop delay, and corridor travel time. This strategy preserved mainline green bands, ensuring reliable progression for both general traffic and transit vehicles, even under low but directionally biased demand. Actuated Free Control, while less stable for vehicle delay due to the absence of coordination, performed well in reducing bus stops, particularly when paired with Transit Signal Priority. Furthermore, Rest-in-Red showed promising results for bus operations during the Evening period, mirroring the benefits observed with Actuated Free Control in the Midday. When combined with Transit Signal Priority, Rest-in-Red offers a viable strategy for off-peak deployment where bus service reliability is a priority.
+Comparative Trade-offs:
+Actuated Free Control with Passive Pedestrian Detection proves advantageous during low-demand, particularly in the Midday period, where phase skipping and adaptive responses to intermittent bus arrivals enhance the effectiveness of Transit Signal Priority. Rest-in-Red, which operates as a variant of Actuated Free Control, performed even better for buses during the Evening period. Notably, all forms of Actuated Free Control delivered strong performance for bus operations without significantly disrupting vehicle traffic, suggesting that this strategy can maintain bus reliability while preserving acceptable vehicle flow during off-peak conditions.
+In contrast, Actuated Coordinated Control combined with Passive Pedestrian Detection offers a more consistent and corridor-wide solution. This approach is especially well-suited for periods with directional peak flows or complex multimodal demands, such as during the Midday and Evening periods. The preservation of signal coordination and mainline green bands under this strategy results in reduced delay.
+These findings support the use of Actuated Coordinated Control with Passive Pedestrian Detection as the preferred default strategy for corridor-level deployment. It ensures equitable performance across all user classes and maintains system-wide efficiency under varied demand profiles. However, Actuated Free Control may serve as a viable alternative during low-volume periods when transit performance is prioritized, offering flexibility without sacrificing vehicular efficiency.
+
+AI Output:
+## Analysis of Actuated Coordinated (AC) vs. Actuated Free (AF) Control
+
+The question asks whether Actuated Coordinated (AC) control performs better than Actuated Free (AF) control in terms of delay, stops, and travel time during the MD and EVE periods.
+
+Based on the SQL results, we can compare the performance of `TSP+AC+PPD` (Actuated Coordinated) and `TSP+AF+PPD` (Actuated Free) scenarios. Both scenarios also include Transit Signal Priority (TSP) and Passive Pedestrian Detection (PPD), allowing for a more direct comparison of the impact of coordination.
+
+**MD Period:**
+
+*   **Vehicles:**
+    *   `TSP+AC+PPD`: DELAYAVG = 30.79 s, STOPSTOT = 212.67, TRAVTMTOT = 9291.25 s
+    *   `TSP+AF+PPD`: DELAYAVG = 30.47 s, STOPSTOT = 228.00, TRAVTMTOT = 9274.24 s
+*   **Buses:**
+    *   `TSP+AC+PPD`: DELAYAVG = 39.63 s, STOPSTOT = 5.75, TRAVTMTOT = 177.15 s
+    *   `TSP+AF+PPD`: DELAYAVG = 38.77 s, STOPSTOT = 5.33, TRAVTMTOT = 173.58 s
+*   **Pedestrians:**
+    *   `TSP+AC+PPD`: DELAYAVG = 11.49 s, STOPSTOT = 10.67, TRAVTMTOT = 1746.06 s
+    *   `TSP+AF+PPD`: DELAYAVG = 7.84 s, STOPSTOT = 8.42, TRAVTMTOT = 1664.84 s
+
+**EVE Period:**
+
+*   **Vehicles:**
+    *   `TSP+AC+PPD`: DELAYAVG = 30.06 s, STOPSTOT = 128.58, TRAVTMTOT = 6986.03 s
+    *   `TSP+AF+PPD`: DELAYAVG = 27.42 s, STOPSTOT = 123.25, TRAVTMTOT = 6744.84 s
+*   **Buses:**
+    *   `TSP+AC+PPD`: DELAYAVG = 66.90 s, STOPSTOT = 2.42, TRAVTMTOT = 198.72 s
+    *   `TSP+AF+PPD`: DELAYAVG = 62.03 s, STOPSTOT = 2.00, TRAVTMTOT = 191.59 s
+*   **Pedestrians:**
+    *   `TSP+AC+PPD`: DELAYAVG = 10.03 s, STOPSTOT = 8.17, TRAVTMTOT = 1565.48 s
+    *   `TSP+AF+PPD`: DELAYAVG = 6.26 s, STOPSTOT = 6.92, TRAVTMTOT = 1491.76 s
+
+**Interpretation:**
+
+In both MD and EVE periods, Actuated Free (AF) control generally shows slightly better performance for vehicles, buses, and pedestrians, with lower average delays, fewer stops, and shorter total travel times compared to Actuated Coordinated (AC) control.
+
+**Justification:**
+
+*   **Actuated Free Control**: In `TSP+AF+PPD`, signals respond fully to real-time traffic demand without any coordination. This allows each intersection to optimize its timings based on immediate needs, potentially reducing delays and stops if demand fluctuates significantly.
+*   **Actuated Coordinated Control**: In `TSP+AC+PPD`, signals are coordinated, aiming to create a smoother flow of traffic along the corridor. However, coordination can sometimes be less efficient if traffic patterns deviate from the coordinated plan, leading to increased delays and stops at certain intersections. The coordination in `TSP+AC+PPD` is based on an average vehicle speed of 30 mph. If actual speeds differ significantly, the coordination may not be optimal.
+*   **Pedestrian Impact**: The presence of Passive Pedestrian Detection (PPD) in both scenarios means that pedestrian phases are only served when there is demand. However, the coordination in `TSP+AC+PPD` might force vehicles to stop unnecessarily for coordinated cycles, even if there are no pedestrians waiting, leading to slightly higher delays compared to `TSP+AF+PPD`.
+
+**Conclusion:**
+
+Based on the simulation results, overall network performance (delay, stops, travel time) is slightly *better* under Actuated Free (AF) control (`TSP+AF+PPD`) compared to Actuated Coordinated (AC) control (`TSP+AC+PPD`) during both MD and EVE periods. This suggests that in this specific scenario, the benefits of coordination are outweighed by the responsiveness of free actuation to fluctuating traffic demands.
+

@@ -1,0 +1,40 @@
+Question: Is TSP still beneficial during Midday or Evening periods, based on delay and number of stops?
+
+Human Analysis:
+While the benefits of TSP are most pronounced during high-demand periods, findings from the Midday and Evening analyses demonstrate that TSP continues to provide measurable advantages even under lower traffic volumes, particularly when integrated with responsive control strategies such as Actuated Free or Rest-in-Red. These combinations support flexible and adaptive signal operations that accommodate transit priority without imposing excessive delay on other modes, thereby reinforcing the value of TSP as a versatile and scalable traffic management tool across varying demand conditions.
+Midday Period:
+During low-demand periods such as Midday and Evening, bus delays across all scenarios were relatively uniform, reflecting the lower baseline congestion levels. Among the tested strategies, the most effective configuration was TSP combined with Actuated Free Control and Passive Pedestrian Detection. This setup enabled the system to respond adaptively to intermittent bus arrivals, improving responsiveness and efficiency in low-volume contexts.
+TSP significantly reduced the number of bus stops, with both Actuated Free and Rest-in-Red configurations showing the most substantial improvements. This outcome is attributed to the increased flexibility these strategies offer in processing priority requests without being constrained by fixed cycle structures.
+Regarding stop delay, the Actuated Free Control and Passive Pedestrian Detection scenario consistently delivered the lowest values, further supporting its suitability for deployment during periods of reduced demand. Collectively, these findings suggest that TSP remains valuable even under light traffic conditions, provided it is implemented alongside adaptive signal control mechanisms.
+Evening Period:
+During the Evening period, TSP delivered more pronounced operational improvements than those observed during the Midday, particularly in terms of reducing both bus delay and the number of stops. The best-performing scenarios were Actuated Coordinated Control with Passive Pedestrian Detection and Rest-in-Red combined with TSP, both of which outperformed all other strategies across key performance indicators, including transit, vehicle, and pedestrian operations.
+Notably, TSP under these configurations also contributed to reductions in overall vehicle delay, suggesting that improved transit operations were achieved without compromising general traffic efficiency. These results underscore the ability of well-integrated TSP and adaptive control strategies to enhance system-wide performance, even during lower-demand evening hours.
+Conclusion:
+TSP remains an effective strategy during off-peak periods, particularly when integrated with Actuated Free Control during the Midday and Actuated Coordinated or Rest-in-Red Control during the Evening. Although the performance differentials between scenarios are less pronounced compared to peak-hour conditions, TSP continues to offer clear benefits by enhancing transit reliability and minimizing unnecessary bus stops. Importantly, these improvements are achieved without introducing measurable delays to general traffic, affirming the applicability of TSP as a low-impact, high-value intervention even under lighter traffic conditions.
+
+
+AI Output:
+Based on the simulation results and scenario descriptions, TSP generally remains beneficial during the MD and EVE periods, but the extent of the benefit depends on the specific control strategy in place.
+
+**Analysis of Delay and Stops:**
+
+To assess the benefit of TSP, I will compare scenarios with TSP to those without TSP, focusing on bus performance (DELAYAVG and STOPSTOT) during the MD and EVE periods. Since there are no scenarios without TSP in the provided data, I will compare scenarios with different control strategies that include TSP.
+
+*   **TSP+AC+PPD vs. TSP+AC+PR:** Comparing these two scenarios highlights the impact of pedestrian control strategies on overall performance.
+
+    *   **MD Period:** TSP+AC+PPD has lower bus delay (39.63s vs 47.42s) and more stops (5.75 vs 3.25) than TSP+AC+PR. For vehicles, TSP+AC+PPD has lower delay (30.79s vs 43.51s) and fewer stops (212.67 vs 277.58) than TSP+AC+PR.
+    *   **EVE Period:** TSP+AC+PPD has lower bus delay (66.90s vs 78.52s) and more stops (2.42 vs 2.17) than TSP+AC+PR. For vehicles, TSP+AC+PPD has lower delay (30.06s vs 43.98s) and fewer stops (128.58 vs 178.75) than TSP+AC+PR.
+
+    *Justification:* The improved performance of TSP+AC+PPD compared to TSP+AC+PR can be attributed to the Passive Pedestrian Detection (PPD). According to the scenario descriptions, PPD serves pedestrians only when they are detected, whereas Pedestrian Recall (PR) serves them every cycle regardless of demand. This reduces unnecessary phase activations and allows more green time for vehicle and bus movements, reducing delay and stops, especially during lower-demand periods like MD and EVE.
+
+*   **TSP+RIR+PPD vs. TSP+RIR+PPD+PGE:** Comparing these two scenarios highlights the impact of pedestrian green extension on overall performance.
+
+    *   **EVE Period:** TSP+RIR+PPD has lower bus delay (63.06s vs 65.34s) and more stops (1.0 vs 0.92) than TSP+RIR+PPD+PGE. For vehicles, TSP+RIR+PPD has lower delay (31.68s vs 32.22s) and more stops (134.83 vs 118.83) than TSP+RIR+PPD+PGE.
+    *   **MD Period:** There is no data for TSP+RIR+PPD+PGE during the MD period.
+
+    *Justification:* The improved performance of TSP+RIR+PPD compared to TSP+RIR+PPD+PGE can be attributed to the Pedestrian Green Extension (PGE). According to the scenario descriptions, PGE extends the green time of the current vehicle phase if slow-moving pedestrians are still within the crosswalk at the end of their walk phase. While effective for safety, this feature may introduce additional delay, especially on minor streets.
+
+**Conclusion:**
+
+TSP remains beneficial during the MD and EVE periods, as evidenced by the reduced delay experienced by buses in the scenarios where it is implemented. However, the specific control strategy and pedestrian management techniques significantly influence the overall performance. Passive Pedestrian Detection (PPD) generally improves efficiency by reducing unnecessary phase activations, while Pedestrian Green Extension (PGE) may introduce additional delay.
+

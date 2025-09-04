@@ -1,0 +1,81 @@
+Question: How does Fixed-Time Control (FT) compare to Actuated Control strategies (AC/AF/RIR) across different times of day, particularly under variable demand conditions?
+
+Human Analysis:
+Across all analyzed time periods, Actuated Control strategies consistently outperformed Fixed-Time Control in terms of reducing overall delay, adapting to variable demand, and improving directional progression along the corridor. As shown in the appendices, specifically in both network-wide performance metrics and segment-level travel time evaluations, the superiority of actuated control is evident and particularly well-suited to the operational characteristics of Second Avenue.
+This performance advantage is largely attributable to the demand imbalance between the main corridor and the side streets. In all TODs, traffic volumes on Second Avenue are significantly higher along the mainline than on cross streets. Fixed-Time Control, by design, allocates green time to all phases at regular intervals, including side streets with minimal demand. This results in inefficient signal utilization and unnecessary delay on the main corridor.
+In contrast, Actuated Control with Passive Pedestrian Detection dynamically allocates green time based on actual demand, granting more green time to the high-volume main corridor and only serving side streets when necessary. This demand-responsive behavior not only improves operational efficiency but also aligns well with the corridor’s traffic patterns, making Actuated Control a more context-appropriate and effective solution for Second Avenue.
+AM Period:
+Actuated Coordinated Control demonstrated superior performance relative to both Field Conditions and Fixed-Time Optimized scenarios across key operational metrics. The observed improvements are largely attributed to enhanced signal timing parameters, including an increased cycle length (from 90s to 100s) and more efficient green time allocation favoring major traffic movements.
+During the AM period, signal coordination was implemented in the northbound direction, where Actuated Coordinated Control achieved smoother progression and lower vehicle and bus travel times. In contrast, none of the evaluated control strategies, including those enhanced with TSP, were able to produce comparable improvements in the southbound direction relative to field conditions. However, this disparity is expected and acceptable, as the northbound direction experiences significantly higher traffic demand during the morning peak. Given this directional imbalance, prioritizing progression in the northbound direction aligns with operational objectives, and the limited improvements in the opposing direction do not detract from the overall effectiveness of the Actuated Coordinated Control strategy.
+PM Period:
+During the PM period, performance differences between control strategies narrowed, primarily due to high congestion levels and directional saturation across the corridor. Actuated Control with Passive Pedestrian Detection continued to outperform Fixed-Time Control in the northbound direction, offering more responsive signal operations. Interestingly, Fixed-Time Control with TSP yielded relatively strong results in the southbound direction, likely due to its ability to create predictable signal gaps under sustained heavy demand.
+However, the overall performance of Fixed-Time Control with updated timings was diminished, largely as a result of extended pedestrian Walk and Flashing Don’t Walk intervals, which reduced effective green time for vehicular movements, particularly on the mainline. In contrast, actuated strategies offered greater flexibility, dynamically allocating green time based on real-time demand, thereby better serving both major corridor flows and intermittent side street traffic.
+Midday Period:
+Under lighter traffic conditions, Actuated Free Control consistently outperformed Fixed-Time Control, primarily due to its ability to dynamically skip unused phases and adapt signal timings to intermittent and fluctuating demand. In contrast, Fixed-Time strategies underperformed, as their static timing plans lacked responsiveness to real-time conditions, resulting in increased delays and unnecessary stops, particularly at low-volume minor approaches. These findings highlight the operational advantages of adaptive control during off-peak periods characterized by reduced and uneven traffic flows.
+Evening Period:
+Similar to the Midday period, the Evening analysis revealed that Rest-in-Red and Actuated Coordinated Control delivered more reliable delay reductions and superior adaptability to variable traffic conditions. These strategies responded effectively to fluctuating demand levels and ensured smoother progression across the corridor. In contrast, Fixed-Time Control demonstrated no notable performance advantage, with its inflexible phase structure proving to be a disadvantage in a low-volume, dynamically changing environment. These results reinforce the recommendation to deploy adaptive control strategies during off-peak periods for enhanced efficiency and responsiveness.
+Conclusion:
+The comparative analysis across all time-of-day periods (AM, PM, Midday, and Evening) demonstrates that Fixed-Time Control, even when optimized, sometimes fails to accommodate the spatiotemporal variability inherent in real-world traffic patterns along the Second Avenue corridor. While it offers predictability, its rigidity leads to excessive delay and unnecessary service to low-demand side streets, especially during off-peak periods and under uneven directional loading.
+In contrast, Actuated Control strategies, particularly Coordinated Actuation with Passive Pedestrian Detection, consistently outperformed Fixed-Time Control across all key performance metrics, including vehicle and bus delay, number of stops, and progression quality. These adaptive systems respond dynamically to real-time demand, optimize green time allocation, and minimize wasted phase time, thereby enhancing overall corridor efficiency and multimodal reliability.
+Although Fixed-Time Control with TSP showed isolated benefits in highly saturated, predictable scenarios (e.g., PM southbound direction), it still lagged behind actuated strategies in most cases. The results support a clear recommendation: Actuated Control should be the default strategy for this corridor, with coordination tailored to dominant flow directions and integrated pedestrian detection features to preserve walkability without compromising throughput. One exception could be the PM peak period, where Fixed-Time with TSP offered good results for bus operations.
+
+AI Output:
+The question asks how Fixed-Time Control (FT) compares to Actuated Control strategies (AC/AF/RIR) across different times of day, particularly under variable demand conditions.
+
+**1. Understanding the Scenario Logic:**
+
+*   **FT (Fixed-Time Control):** As described in the retrieved documents, FT uses pre-calculated signal timings based on historical traffic demand. It does not respond to real-time fluctuations in traffic. Pedestrian Recall is active, serving pedestrians every cycle.
+*   **AC (Actuated Coordinated Control):** AC strategies (such as `TSP+AC+PPD`, `TSP+AC+PR`, `TSP+AC(TFT)+PPD`, `TSP+AC+PPD+PGE`, `TSP+AC+PPD+PGE+EP`, `TSP+GLOSA(x)+AC+PPD`) adjust signal timings based on real-time vehicle detection, allowing green time to be allocated to higher-demand movements. Coordination is maintained between intersections.
+*   **AF (Actuated Free Control):** AF strategies (such as `TSP+AF+PPD`, `TSP+AF+PPD+PGE+EP`) fully respond to traffic demand without coordination.
+*   **RIR (Rest-in-Red):** RIR strategies (such as `TSP+RIR+PPD`, `TSP+RIR+PPD+PGE`) keep signals red until demand is detected, potentially reducing unnecessary delays during periods of low traffic.
+
+**2. Interpreting the Data in Context:**
+
+The SQL output provides performance metrics (DELAYAVG, DELAYSTOPAVG, STOPSTOT, TRAVTMTOT) for different scenarios, time periods (AM, MD, PM, EVE), and modes (Buses, Pedestrians, Vehicles). To compare FT with actuated control, we will focus on vehicle DELAYAVG as a primary metric.
+
+*   **AM Peak:**
+    *   FT: Vehicle DELAYAVG = 55.54 seconds
+    *   TSP+AC+PPD: Vehicle DELAYAVG = 35.76 seconds
+    *   TSP+AC(TFT)+PPD: Vehicle DELAYAVG = 41.64 seconds
+    *   TSP+AC+PPD+PGE: Vehicle DELAYAVG = 36.15 seconds
+    *   TSP+AC+PPD+PGE+EP: Vehicle DELAYAVG = 38.72 seconds
+    *   TSP+AC+PR: Vehicle DELAYAVG = 56.06 seconds
+    *   TSP+GLOSA(10)+AC+PPD: Vehicle DELAYAVG = 35.63 seconds
+    *   TSP+GLOSA(20)+AC+PPD: Vehicle DELAYAVG = 36.02 seconds
+    *   TSP+GLOSA(30)+AC+PPD: Vehicle DELAYAVG = 36.17 seconds
+*   **Mid-Day:**
+    *   FT: Vehicle DELAYAVG = 44.39 seconds
+    *   TSP+AC+PPD: Vehicle DELAYAVG = 30.79 seconds
+    *   TSP+AF+PPD+PGE+EP: Vehicle DELAYAVG = 30.83 seconds
+    *   TSP+AC+PR: Vehicle DELAYAVG = 43.51 seconds
+    *   TSP+RIR+PPD: Vehicle DELAYAVG = 35.97 seconds
+*   **PM Peak:**
+    *   FT: Vehicle DELAYAVG = 54.74 seconds
+    *   TSP+AC+PPD: Vehicle DELAYAVG = 50.33 seconds
+    *   TSP+AC(TFT)+PPD: Vehicle DELAYAVG = 54.39 seconds
+    *   TSP+AC+PPD+PGE: Vehicle DELAYAVG = 51.15 seconds
+    *   TSP+AC+PPD+PGE+EP: Vehicle DELAYAVG = 55.91 seconds
+    *   TSP+AC+PR: Vehicle DELAYAVG = 57.87 seconds
+    *   TSP+GLOSA(10)+AC+PPD: Vehicle DELAYAVG = 51.43 seconds
+    *   TSP+GLOSA(20)+AC+PPD: Vehicle DELAYAVG = 49.94 seconds
+    *   TSP+GLOSA(30)+AC+PPD: Vehicle DELAYAVG = 51.75 seconds
+*   **Evening:**
+    *   FT: Vehicle DELAYAVG = 45.69 seconds
+    *   TSP+AC+PPD: Vehicle DELAYAVG = 30.06 seconds
+    *   TSP+AF+PPD: Vehicle DELAYAVG = 27.42 seconds
+    *   TSP+RIR+PPD: Vehicle DELAYAVG = 31.68 seconds
+    *   TSP+RIR+PPD+PGE: Vehicle DELAYAVG = 32.22 seconds
+    *   TSP+AC+PR: Vehicle DELAYAVG = 43.98 seconds
+
+**3. Justifying Observed Performance:**
+
+*   **Actuated Control Benefits:** Actuated control strategies (AC, AF, RIR) generally show lower average vehicle delays compared to FT, especially during off-peak hours (MD, EVE). This is because actuated control can adapt to lower demand by skipping phases or resting in red, reducing unnecessary delays.
+*   **AM/PM Peak Differences:** During peak hours (AM, PM), the benefits of actuated control are less pronounced. This is because traffic volumes are consistently high, reducing the opportunity for the actuated control to skip phases or rest in red. In some cases, FT performs comparably or even slightly better than some AC scenarios during peak hours (e.g., `TSP+AC+PR` in PM).
+*   **Pedestrian Recall Impact:** The `TSP+AC+PR` scenario, which uses Pedestrian Recall, often performs worse than other AC scenarios, especially during peak hours. This is because Pedestrian Recall forces the signal to serve pedestrian phases every cycle, even when there are no pedestrians present, reducing the efficiency of the actuated control and increasing delays for vehicles. As stated in the scenario description, "even in the absence of vehicular demand on minor approaches, the signal will activate those phases solely due to pedestrian recall, potentially reducing system responsiveness and increasing unnecessary delay."
+*   **AF Performance:** Actuated Free (AF) control (`TSP+AF+PPD`) shows significant delay reduction during off-peak (EVE) due to its uncoordinated and fully responsive nature.
+*   **RIR Performance:** Rest-in-Red (RIR) strategies (`TSP+RIR+PPD`, `TSP+RIR+PPD+PGE`) also show delay reduction during off-peak (EVE) due to its ability to remain in red until demand is detected.
+
+**4. Conclusion:**
+
+Actuated control strategies (AC, AF, RIR) generally outperform Fixed-Time control (FT) by reducing vehicle delays, particularly during off-peak hours when traffic demand is variable. During peak hours, the benefits of actuated control are less significant due to consistently high traffic volumes. The use of Pedestrian Recall (PR) can negatively impact the performance of actuated control by forcing unnecessary pedestrian phases, increasing vehicle delays. Actuated Free control and Rest-in-Red strategies are particularly effective at reducing delays during off-peak hours due to their responsive nature.
+

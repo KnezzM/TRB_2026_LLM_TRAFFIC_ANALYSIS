@@ -1,0 +1,73 @@
+Question: Does TSP improve bus performance (in terms of delay and number of stops) during peak periods (AM/PM) without negatively impacting general vehicle operations?
+
+Human Analysis:
+The implementation of TSP during peak periods (AM and PM) yielded substantial improvements in bus operations, particularly with respect to reducing delay and minimizing the number of stops. These enhancements were achieved without significantly compromising general vehicular traffic performance.
+TSP in this study was enabled through a cloud-based priority management system, which dynamically detects approaching buses running behind schedule and responds by either extending the green phase or initiating an early green. While this mechanism can temporarily disrupt side street vehicle movements, it is designed to optimize overall corridor efficiency by prioritizing transit flow along high-demand routes.
+However, the effectiveness of TSP was observed to vary depending on the specific time of day and prevailing traffic conditions. Detailed results presented in the Appendix indicate these temporal variations in both network-wide performance and segment-level travel times, demonstrating that TSP's operational benefits are context-sensitive and may depend on factors such as coordination direction, cycle length, and pedestrian phase timing.
+AM Period:
+When comparing all scenarios that included TSP, results indicate that TSP consistently improved overall bus performance, notably in reducing delay, while maintaining low vehicle delay, suggesting that its deployment did not significantly disrupt general traffic operations. A direct comparison between Fixed-Time Control with and without TSP reveals a clear performance gain from introducing TSP, particularly in terms of transit-specific metrics.
+The combination of TSP with Actuated Coordinated Control yielded the lowest average bus delay, reflecting the effective integration of early green and green extension strategies. While part of the delay reduction can be attributed to the superior responsiveness of actuated control compared to fixed-time control, the addition of TSP further enhanced performance without introducing any negative effects.
+In terms of the number of stops for buses, a slight increase was observed when TSP was paired with Pedestrian Recall operations, likely due to the cycle operating in a near-fixed-time fashion and reducing the flexibility needed to fully exploit priority requests. In contrast, implementing Passive Pedestrian Detection allowed more adaptive signal behavior, resulting in a noticeable reduction in the number of bus stops.
+Despite the increase in the number of stops under certain scenarios, TSP still significantly reduced stop delay, reinforcing the conclusion that it effectively improves transit progression through strategic phase manipulation, even when cycle structures are constrained.
+PM Period:
+During the PM period, the impact of TSP on bus operations closely mirrored the trends observed during the AM period. Among all scenarios, TSP combined with Fixed-Time Control resulted in the lowest average bus delay, likely due to more consistent and predictable signal gaps that benefited transit progression under high-demand conditions. This outcome suggests that, in heavily congested scenarios, the deterministic nature of fixed-time phasing may enhance the effectiveness of TSP interventions.
+While vehicle demand remained elevated across all PM peak scenarios, only marginal differences in vehicular delay were observed between TSP and non-TSP configurations. This indicates that the implementation of TSP did not introduce significant adverse effects on general traffic operations. In terms of bus delay, the performance remained consistent across most scenarios, suggesting robust TSP integration regardless of the underlying control strategy.
+However, more substantial improvements were observed in the number of stops and stop delay metrics for buses. The introduction of TSP led to a notable reduction in the total number of bus stops, particularly when comparing Fixed-Time Control against its TSP-enabled counterpart. Furthermore, the use of Actuated Coordinated Control in conjunction with TSP produced even greater reductions in stop-related performance measures, highlighting the benefits of dynamic phase control for enhancing transit reliability under peak-period demand.
+Although stop delay remained relatively high across all strategies due to increased network demand during the PM peak, TSP-enabled scenarios consistently outperformed the field condition baseline, confirming the robustness of TSP in maintaining transit efficiency even under constrained conditions.
+Conclusion:
+Across both AM and PM periods, scenarios that implemented TSP consistently outperformed both field conditions and fixed-time control without TSP in terms of reducing stop delay and the number of stops for transit vehicles. These findings reinforce the effectiveness of TSP in enhancing bus operations, particularly during peak demand periods.
+In contrast, scenarios that included Pedestrian Green Extension or Exclusive Pedestrian Phases introduced significant additional delays for buses, often offsetting the benefits of TSP. As such, these strategies may be counterproductive in transit-prioritized corridors and should be applied with caution or avoided when the primary objective is to improve transit reliability and efficiency.
+The results of this study demonstrate that TSP, particularly when integrated with Actuated Coordinated Control and Passive Pedestrian Detection, provides consistent and substantial benefits to transit performance across all TOD periods, including AM, PM, Midday, and Evening. TSP reduced both bus delay and the number of stops without adversely affecting general vehicular performance, making it a reliable strategy for improving transit service reliability in mixed-traffic environments. Actuated control strategies, especially under coordinated operations, consistently outperformed Fixed-Time Control, which under certain TODs underperformed relative to field conditions due to inefficient green time distribution, particularly on minor approaches. Although pedestrian-focused strategies like Pedestrian Green Extension and Exclusive Pedestrian Phases offered advantages in pedestrian delay, they frequently introduced unacceptable delays for buses and general traffic, suggesting limited applicability in high-transit corridors. Overall, the most balanced and robust performance was achieved with TSP-enabled, actuated signal operations, providing a strong foundation for city-wide implementation of adaptive, multimodal signal control systems.
+
+AI Output:
+The question asks whether TSP improves bus performance during peak periods (AM/PM) without negatively impacting general vehicle operations. To answer this, I will compare scenarios with and without TSP, focusing on bus delay and stops, as well as vehicle delay and stops during the AM and PM periods.
+
+**Analysis:**
+
+First, I will establish a baseline using the "FIELD" scenario, representing existing field conditions without TSP. Then, I will compare this to scenarios that include TSP.
+
+**AM Peak:**
+
+*   **FIELD (Baseline):**
+    *   Buses: DELAYAVG = 59.02, STOPSTOT = 4.67
+    *   Vehicles: DELAYAVG = 58.50, STOPSTOT = 636.08
+*   **TSP+AC+PPD:**
+    *   Buses: DELAYAVG = 56.78, STOPSTOT = 6.33
+    *   Vehicles: DELAYAVG = 35.76, STOPSTOT = 350.83
+*   **TSP+AC(TFT)+PPD:**
+    *   Buses: DELAYAVG = 58.02, STOPSTOT = 5.42
+    *   Vehicles: DELAYAVG = 41.64, STOPSTOT = 419.17
+*   **TSP+FT:**
+    *   Buses: DELAYAVG = 65.25, STOPSTOT = 4.33
+    *   Vehicles: DELAYAVG = 54.14, STOPSTOT = 502.17
+
+**PM Peak:**
+
+*   **FIELD (Baseline):**
+    *   Buses: DELAYAVG = 66.03, STOPSTOT = 4.92
+    *   Vehicles: DELAYAVG = 51.84, STOPSTOT = 516.42
+*   **TSP+AC+PPD:**
+    *   Buses: DELAYAVG = 69.98, STOPSTOT = 1.92
+    *   Vehicles: DELAYAVG = 50.33, STOPSTOT = 439.58
+*   **TSP+AC(TFT)+PPD:**
+    *   Buses: DELAYAVG = 63.99, STOPSTOT = 2.33
+    *   Vehicles: DELAYAVG = 54.39, STOPSTOT = 479.08
+*   **TSP+FT:**
+    *   Buses: DELAYAVG = 70.71, STOPSTOT = 2.83
+    *   Vehicles: DELAYAVG = 55.21, STOPSTOT = 497.83
+
+**Interpretation:**
+
+*   **TSP+AC+PPD:** During the AM peak, this scenario shows a slight decrease in bus delay (59.02 to 56.78) and a slight increase in stops (4.67 to 6.33) compared to the FIELD scenario. Vehicle delay and stops are significantly reduced. During the PM peak, bus delay increases (66.03 to 69.98) but stops are significantly reduced (4.92 to 1.92), while vehicle delay decreases slightly and stops are reduced. The document "TSP+AC+PPD" describes that vehicle detectors are deployed at intersection approaches to enable demand-responsive green time allocation. Low-demand approaches are skipped, allowing more green time to be assigned to high-volume movements, improving corridor efficiency. This explains the reduction in vehicle delay and stops.
+*   **TSP+AC(TFT)+PPD:** During the AM peak, bus delay decreases slightly (59.02 to 58.02) and stops increase slightly (4.67 to 5.42). Vehicle delay and stops are significantly reduced. During the PM peak, bus delay decreases (66.03 to 63.99) and stops are reduced (4.92 to 2.33), while vehicle delay increases slightly and stops are reduced. The document "TSP+AC(TFT)+PPD" states that signal coordination offsets are calculated based on an average bus travel speed of 10 mph to improve bus progression through the corridor. This explains the reduction in bus delay.
+*   **TSP+FT:** During both AM and PM peak periods, bus delay increases (59.02 to 65.25 in AM and 66.03 to 70.71 in PM), while stops decrease slightly in AM (4.67 to 4.33) and more significantly in PM (4.92 to 2.83). Vehicle delay decreases slightly in AM (58.50 to 54.14) and increases slightly in PM (51.84 to 55.21), while stops are reduced in both periods. The document "TSP+FT" describes that the TSP system extends the green phase or shortens the red phase at the upcoming intersection when a bus is detected to be running behind schedule. This intervention is applied at each intersection individually to prioritize transit movement while maintaining a fixed-time base control. The increase in bus delay could be due to the fixed-time base control not being optimized for bus travel times.
+
+**Conclusion:**
+
+TSP can improve bus performance in terms of reducing the number of stops, but it may not always reduce bus delay during peak periods. The impact on general vehicle operations varies depending on the specific implementation of TSP and the existing traffic conditions.
+
+*   **TSP+AC+PPD** and **TSP+AC(TFT)+PPD** show potential for improving both bus and vehicle performance, but the increase in bus delay in some cases suggests that further optimization may be needed.
+*   **TSP+FT** shows a reduction in vehicle stops, but an increase in bus delay, suggesting that the fixed-time control may not be the most effective strategy for prioritizing buses.
+
+Therefore, the effectiveness of TSP depends on the specific control strategy and how it interacts with the existing traffic conditions. Actuated coordinated control strategies (AC) appear to be more effective at improving overall performance compared to fixed-time control (FT).
+
